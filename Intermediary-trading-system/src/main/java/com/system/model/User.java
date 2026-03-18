@@ -1,4 +1,4 @@
-package model;
+package com.system.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
