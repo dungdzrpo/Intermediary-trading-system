@@ -3,10 +3,9 @@ package com.system.service;
 
 
 import com.system.model.User;
-import com.system.model.UserRegisterDTO;
+import com.system.dto.UserRegisterDTO;
 import com.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
