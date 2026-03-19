@@ -1,33 +1,61 @@
-HELP.md
+# ==========================================
+# 1. THƯ MỤC CHỨA ẢNH UPLOAD CỦA PROJECT NÀY
+# ==========================================
+# Tuyệt đối không đẩy ảnh test của user lên Git
+/uploads/
+/Intermediary-trading-system/uploads/
+
+# ==========================================
+# 2. MAVEN (Công cụ build)
+# ==========================================
 target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# ==========================================
+# 3. INTELLIJ IDEA (Cấu hình IDE của bạn)
+# ==========================================
+.idea/
 *.iml
+*.iws
 *.ipr
+out/
+/classes/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# ==========================================
+# 4. JAVA & SPRING BOOT
+# ==========================================
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
 
-### VS Code ###
-.vscode/
+# Bỏ qua các file cấu hình chứa mật khẩu nhạy cảm (nếu sau này bạn tách ra)
+# application-prod.properties
+# application-prod.yml
+
+# ==========================================
+# 5. OS (Hệ điều hành)
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
