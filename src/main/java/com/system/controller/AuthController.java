@@ -2,7 +2,7 @@ package com.system.controller;
 
 
 
-import com.system.model.UserRegisterDTO;
+import com.system.dto.UserRegisterDTO;
 import com.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

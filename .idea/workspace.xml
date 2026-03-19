@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e89ef435-41b0-4866-b2d2-eab9da1c700e" name="Changes" comment="" />
+    <list default="true" id="7670e496-ba61-4aa1-8c93-62a070b40ee7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/ImageUploadController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/PostController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/WalletController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/dto/PostCreateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/repository/PostRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/repository/WalletTransactionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/service/PostService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/service/VNPayService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/system/service/WalletService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/post/create.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/wallet/deposit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/wallet/success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/model/UserRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/dto/UserRegisterDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/system/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/system/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,12 +31,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -32,20 +51,27 @@
     <urls />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="3B3l48ZUAA5sALmzYswScSvuPj5" />
+  <component name="ProjectId" id="3B3oY7ebaRyv6OtnXRZSpYpEsPH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Dung&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -56,7 +82,16 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ki5fpt\hsf302\Intermediary-trading-system\Intermediary-trading-system\src\main\resources\templates\post" />
+      <recent name="D:\ki5fpt\hsf302\Intermediary-trading-system\Intermediary-trading-system\src\main\resources\templates\wallet" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.Main">
     <configuration name="IntermediaryTradingSystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="Intermediary-trading-system" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.intermediarytradingsystem.IntermediaryTradingSystemApplication" />
@@ -64,6 +99,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="Intermediary-trading-system" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.system.Main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -75,12 +128,14 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e89ef435-41b0-4866-b2d2-eab9da1c700e" name="Changes" comment="" />
-      <created>1773725442035</created>
+      <changelist id="7670e496-ba61-4aa1-8c93-62a070b40ee7" name="Changes" comment="" />
+      <created>1773727161114</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1773725442035</updated>
-      <workItem from="1773725443215" duration="1710000" />
+      <updated>1773727161114</updated>
+      <workItem from="1773727162160" duration="1063000" />
+      <workItem from="1773848551139" duration="4503000" />
+      <workItem from="1773901263165" duration="3440000" />
     </task>
     <servers />
   </component>
