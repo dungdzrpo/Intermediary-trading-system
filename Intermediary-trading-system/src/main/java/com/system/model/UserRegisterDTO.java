@@ -1,4 +1,4 @@
-package com.system.dto;
+package com.system.model;
 
 
 
