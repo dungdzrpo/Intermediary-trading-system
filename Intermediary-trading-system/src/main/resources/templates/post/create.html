@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Đăng Bán Sản Phẩm Mới</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -14,107 +15,127 @@
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="/">Quay lại Trang Chủ</a>
-    </div>
-</nav>
+<div class="d-flex" style="min-height: 100vh;">
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-9"> <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Đăng Bán Sản Phẩm (Phí: 5.000 VNĐ)</h4>
+    <div th:replace="~{fragments/sidebar :: sidebar('create')}"></div>
+
+    <div class="flex-grow-1 p-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10"> <div class="card shadow border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Đăng Bán Sản Phẩm (Phí: 5.000 VNĐ)</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form th:action="@{/posts/create}" th:object="${postDTO}" method="post">
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tiêu đề bài viết <span class="text-danger">*</span></label>
+                                <input type="text" th:field="*{title}" class="form-control" placeholder="Ví dụ: Tài khoản game siêu vip..." required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold text-success">Mô tả công khai (Có thể chèn hình ảnh) <span class="text-danger">*</span></label>
+                                <textarea th:field="*{description}" id="summernote" required></textarea>
+                            </div>
+
+                            <div class="mb-3 alert alert-warning border-warning">
+                                <label class="form-label fw-bold text-dark">Thông tin Ẩn (Bảo mật) <span class="text-danger">*</span></label>
+                                <textarea th:field="*{hiddenInfo}" class="form-control" rows="3" placeholder="Account, Password, Link Google Drive..." required></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
+                                    <input type="number" th:field="*{price}" class="form-control" required min="10000" step="1000">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Ai chịu phí sàn (5%)?</label>
+                                    <select th:field="*{feePayer}" class="form-select">
+                                        <option value="SELLER">Tôi (Người bán chịu)</option>
+                                        <option value="BUYER">Người mua chịu</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-4 p-3 border rounded bg-white shadow-sm">
+                                <label class="form-label fw-bold">Chế độ hiển thị bài đăng <span class="text-danger">*</span></label>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" th:field="*{visibility}" value="PUBLIC" id="visPublic" checked>
+                                    <label class="form-check-label fw-bold" for="visPublic">
+                                        🌍 Công khai (Public)
+                                    </label>
+                                    <div class="form-text mt-0">Bài viết sẽ hiển thị công khai trên Trang chủ / Chợ trao đổi. Ai cũng có thể xem và mua.</div>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" th:field="*{visibility}" value="UNLISTED" id="visUnlisted">
+                                    <label class="form-check-label fw-bold text-secondary" for="visUnlisted">
+                                        🔗 Ẩn danh (Unlisted)
+                                    </label>
+                                    <div class="form-text mt-0">Bài viết sẽ BỊ ẨN khỏi trang chủ. Chỉ những ai có đường link trực tiếp (do bạn gửi) mới có thể xem và mua.</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+                            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold shadow-sm">
+                                <i class="bi bi-check-circle me-2"></i>Xác Nhận Đăng Bài (-5.000đ)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form th:action="@{/posts/create}" th:object="${postDTO}" method="post">
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tiêu đề bài viết <span class="text-danger">*</span></label>
-                        <input type="text" th:field="*{title}" class="form-control" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label fw-bold text-success">Mô tả công khai (Có thể chèn hình ảnh) <span class="text-danger">*</span></label>
-                        <textarea th:field="*{description}" id="summernote" required></textarea>
-                    </div>
-
-                    <div class="mb-3 alert alert-warning">
-                        <label class="form-label fw-bold">Thông tin Ẩn (Bảo mật) <span class="text-danger">*</span></label>
-                        <textarea th:field="*{hiddenInfo}" class="form-control" rows="3" required></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
-                            <input type="number" th:field="*{price}" class="form-control" required min="10000" step="1000">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Ai chịu phí sàn (5%)?</label>
-                            <select th:field="*{feePayer}" class="form-select">
-                                <option value="SELLER">Người bán chịu</option>
-                                <option value="BUYER">Người mua chịu</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <button type="submit" class="btn btn-success btn-lg w-100">Xác Nhận Đăng Bài (-5.000đ)</button>
-                </form>
-            </div>
-        </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
 
-        // Lấy thông tin CSRF token từ meta tag (Bắt buộc phải có để Spring Security cho phép POST)
+        // Setup CSRF cho Ajax
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(header, token);
         });
 
+        // Khởi tạo Summernote
         $('#summernote').summernote({
             placeholder: 'Viết mô tả chi tiết sản phẩm, bạn có thể kéo thả hoặc chèn hình ảnh vào đây...',
             tabsize: 2,
-            height: 300, // Chiều cao ô soạn thảo
-            lang: 'vi-VN', // Ngôn ngữ tiếng Việt (nếu đã nhúng file lang)
+            height: 300,
+            lang: 'vi-VN',
             toolbar: [
-                // Cấu hình thanh công cụ tối giản
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']], // Nút chèn ảnh nằm ở đây
+                ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
             ],
-            // Xử lý sự kiện khi người dùng chèn ảnh
             callbacks: {
                 onImageUpload: function(files) {
-                    // Gọi hàm upload ảnh qua Ajax
                     uploadImage(files[0]);
                 }
             }
         });
 
-        // Hàm Ajax gửi ảnh sang Backend
         function uploadImage(file) {
             var data = new FormData();
-            data.append("image", file); // Tên tham số "image" phải khớp với @RequestParam trong Controller
+            data.append("image", file);
 
             $.ajax({
-                url: "/api/upload-image", // URL của API Backend
+                url: "/api/upload-image",
                 cache: false,
                 contentType: false,
                 processData: false,
                 data: data,
                 type: "POST",
                 success: function(url) {
-                    // Nếu Backend lưu thành công và trả về URL, chèn ảnh vào ô soạn thảo
                     $('#summernote').summernote('insertImage', url);
                     console.log("Upload ảnh thành công: " + url);
                 },

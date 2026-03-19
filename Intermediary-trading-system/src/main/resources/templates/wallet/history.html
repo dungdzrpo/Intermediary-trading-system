@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch Sử Giao Dịch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div class="d-flex" style="min-height: 100vh;">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('history')}"></div>
+
+    <div class="flex-grow-1 p-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-11"> <div class="card shadow border-0">
+                    <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="bi bi-clock-history me-2"></i>Lịch Sử Biến Động Số Dư</h4>
+                        <a href="/wallet/deposit" class="btn btn-light btn-sm fw-bold text-primary shadow-sm">
+                            <i class="bi bi-plus-circle me-1"></i>Nạp Thêm Tiền
+                        </a>
+                    </div>
+                    <div class="card-body p-4">
+
+                        <div th:if="${#lists.isEmpty(transactions)}" class="alert alert-info text-center d-flex flex-column align-items-center py-4">
+                            <i class="bi bi-inbox fs-1 text-secondary mb-2"></i>
+                            <h5>Bạn chưa có giao dịch nào!</h5>
+                            <p class="text-muted mb-0">Hãy nạp tiền hoặc bán sản phẩm để phát sinh giao dịch.</p>
+                        </div>
+
+                        <div class="table-responsive" th:unless="${#lists.isEmpty(transactions)}">
+                            <table class="table table-hover align-middle text-center mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="py-3">Mã GD</th>
+                                    <th class="py-3">Loại Giao Dịch</th>
+                                    <th class="py-3">Số Tiền (VNĐ)</th>
+                                    <th class="py-3 text-start">Nội Dung Chi Tiết</th>
+                                </tr>
+                                </thead>
+                                <tbody class="border-top-0">
+                                <tr th:each="trans : ${transactions}">
+                                    <td class="fw-bold text-secondary" th:text="'#' + ${trans.id}">#1</td>
+
+                                    <td>
+                                        <span th:if="${trans.type.name() == 'DEPOSIT'}" class="badge bg-success px-3 py-2">NẠP TIỀN</span>
+                                        <span th:if="${trans.type.name() == 'POST_FEE'}" class="badge bg-danger px-3 py-2">PHÍ ĐĂNG BÀI</span>
+                                        <span th:if="${trans.type.name() == 'HOLD'}" class="badge bg-warning text-dark px-3 py-2">TẠM GIỮ TIỀN</span>
+                                        <span th:if="${trans.type.name() == 'REFUND'}" class="badge bg-info px-3 py-2">HOÀN TIỀN</span>
+                                    </td>
+
+                                    <td class="fw-bold fs-6"
+                                        th:classappend="${trans.amount > 0 ? 'text-success' : 'text-danger'}"
+                                        th:text="${trans.amount > 0 ? '+' : ''} + ${#numbers.formatDecimal(trans.amount, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                                        +50,000 đ
+                                    </td>
+
+                                    <td class="text-start text-muted" th:text="${trans.description}">Nạp tiền qua VNPay</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

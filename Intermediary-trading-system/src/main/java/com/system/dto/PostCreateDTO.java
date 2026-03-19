@@ -12,4 +12,5 @@ public class PostCreateDTO {
     private String hiddenInfo; // Thông tin mật (Account game, Link drive...)
     private BigDecimal price;
     private Post.FeePayer feePayer; // Ai chịu phí sàn 5% (SELLER hoặc BUYER)
+    private Post.Visibility visibility;
 }

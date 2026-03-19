@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,11 @@ public class WalletService {
         trans.setType(WalletTransaction.TransactionType.DEPOSIT);
         trans.setDescription(description);
         transactionRepository.save(trans);
+    }
+    public List<WalletTransaction> getTransactionHistory(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy User"));
+
+        return transactionRepository.findByUserOrderByIdDesc(user);
     }
 }

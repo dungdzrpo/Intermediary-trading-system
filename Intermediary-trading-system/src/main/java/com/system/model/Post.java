@@ -51,4 +51,12 @@ public class Post {
     public enum PostStatus {
         DRAFT, ACTIVE, LOCKED, CANCELLED
     }
+    public enum Visibility {
+        PUBLIC,     // Công khai trên chợ
+        UNLISTED    // Ẩn, chỉ có link mới vào được
+    }
+
+
+    @Enumerated(EnumType.STRING)
+    private Visibility visibility;
 }

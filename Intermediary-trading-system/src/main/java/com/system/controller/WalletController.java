@@ -1,6 +1,7 @@
 package com.system.controller;
 
 
+import com.system.model.WalletTransaction;
 import com.system.service.VNPayService;
 import com.system.service.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/wallet")
@@ -66,5 +68,16 @@ public class WalletController {
             model.addAttribute("error", "Giao dịch thất bại hoặc bị hủy!");
             return "wallet/deposit";
         }
+    }
+    @GetMapping("/history")
+    public String showHistory(Principal principal, Model model) {
+        String username = principal.getName();
+
+        // Gọi Service lấy danh sách
+        List<WalletTransaction> transactions = walletService.getTransactionHistory(username);
+
+        // Đẩy ra giao diện
+        model.addAttribute("transactions", transactions);
+        return "wallet/history";
     }
 }

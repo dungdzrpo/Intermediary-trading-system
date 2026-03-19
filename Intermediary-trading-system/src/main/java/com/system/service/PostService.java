@@ -10,10 +10,15 @@ import com.system.repository.UserRepository;
 import com.system.repository.WalletTransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +60,7 @@ public class PostService {
         post.setPrice(dto.getPrice());
         post.setFeePayer(dto.getFeePayer());
         post.setStatus(Post.PostStatus.ACTIVE); // Đủ tiền trừ nên bài viết Active luôn
+        post.setVisibility(dto.getVisibility() != null ? dto.getVisibility() : Post.Visibility.PUBLIC);
 
         post = postRepository.save(post); // Lưu để lấy ID bài viết sinh ra
 
@@ -68,4 +74,33 @@ public class PostService {
 
         transactionRepository.save(trans);
     }
+    // Thêm hàm này vào dưới các hàm cũ
+    public List<Post> getMarketplacePosts() {
+        // Chỉ lấy những bài PUBLIC và đang ACTIVE (chưa ai mua)
+        return postRepository.findByVisibilityAndStatusOrderByIdDesc(
+                Post.Visibility.PUBLIC,
+                Post.PostStatus.ACTIVE
+        );
+    }
+    public Page<Post> getMarketplacePosts(int page, int size, String keyword, String sortDirection) {
+
+        // Cấu hình sắp xếp
+        Sort sortObj = Sort.by(Sort.Direction.DESC, "id"); // Mặc định là mới nhất
+        if ("price_asc".equals(sortDirection)) {
+            sortObj = Sort.by(Sort.Direction.ASC, "price");
+        } else if ("price_desc".equals(sortDirection)) {
+            sortObj = Sort.by(Sort.Direction.DESC, "price");
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortObj);
+
+        // Chữ keyword null thì đổi thành chuỗi rỗng để tìm tất cả
+        String searchKeyword = (keyword != null) ? keyword : "";
+
+        return postRepository.findByVisibilityAndStatusAndTitleContainingIgnoreCase(
+                Post.Visibility.PUBLIC,
+                Post.PostStatus.ACTIVE,
+                searchKeyword,
+                pageable
+        );}
 }
