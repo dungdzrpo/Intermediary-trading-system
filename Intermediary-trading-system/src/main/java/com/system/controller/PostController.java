@@ -2,14 +2,13 @@ package com.system.controller;
 
 
 import com.system.dto.PostCreateDTO;
+import com.system.model.Post;
+import com.system.repository.PostRepository;
 import com.system.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -21,12 +20,26 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private PostRepository postRepository;
+
+    @GetMapping("/{id}")
+    public String viewPostDetail(@PathVariable Long id, Model model) throws Exception {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new Exception("Không tìm thấy bài đăng"));
+
+        model.addAttribute("post", post);
+        return "post/detail";
+    }
+
     // 1. Hiển thị form đăng bài
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("postDTO", new PostCreateDTO());
         return "post/create";
     }
+
+
 
     // 2. Xử lý dữ liệu gửi lên
     @PostMapping("/create")
@@ -47,4 +60,6 @@ public class PostController {
             return "post/create";
         }
     }
+
+
 }

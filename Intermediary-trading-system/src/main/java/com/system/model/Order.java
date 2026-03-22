@@ -16,6 +16,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     // Liên kết với Bài đăng (1 bài đăng có thể có 1 giao dịch thành công)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
