@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Đơn Hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div class="d-flex" style="min-height: 100vh;">
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar('purchases')}"></div>
+
+    <!-- Content -->
+    <div class="flex-grow-1 p-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+
+                    <div class="card shadow border-0">
+                        <!-- Header -->
+                        <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">
+                                <i class="bi bi-receipt me-2"></i>Chi Tiết Đơn Hàng
+                            </h4>
+                            <a href="/orders/my-purchases" class="btn btn-light btn-sm fw-bold text-primary shadow-sm">
+                                <i class="bi bi-arrow-left me-1"></i>Quay Lại
+                            </a>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+
+                                <!-- LEFT -->
+                                <div class="col-md-8">
+                                    <div class="border rounded p-4 bg-white shadow-sm h-100">
+
+                                        <div class="d-flex justify-content-between flex-wrap gap-3">
+                                            <div>
+                                                <h3 class="fw-bold mb-2"
+                                                    th:text="${order.post.title}">Tên sản phẩm</h3>
+
+                                                <div class="text-muted mb-2">
+                                                    <i class="bi bi-person-circle me-1"></i>
+                                                    <span th:text="${order.post.seller.username}">seller</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="badge bg-success"
+                                                          th:if="${order.post.feePayer.name() == 'SELLER'}">
+                                                        Người bán chịu phí
+                                                    </span>
+                                                    <span class="badge bg-warning text-dark"
+                                                          th:if="${order.post.feePayer.name() == 'BUYER'}">
+                                                        Người mua chịu phí
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-end">
+                                                <div class="text-muted small">Số tiền thanh toán</div>
+                                                <div class="fw-bold text-danger fs-2"
+                                                     th:text="${#numbers.formatDecimal(order.amount,0,'COMMA',0,'POINT')} + ' đ'">
+                                                    100,000 đ
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="bi bi-card-text me-2"></i>Mô Tả
+                                        </h5>
+
+                                        <div class="text-muted"
+                                             th:utext="${order.post.description}">
+                                            Mô tả
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- RIGHT -->
+                                <div class="col-md-4">
+                                    <div class="border rounded p-4 bg-white shadow-sm h-100">
+
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="bi bi-info-circle me-2"></i>Thông Tin Đơn
+                                        </h5>
+
+                                        <!-- STATUS -->
+                                        <div class="mb-3">
+                                            <div class="text-muted small">Trạng thái</div>
+
+                                            <span class="badge bg-warning text-dark"
+                                                  th:if="${order.status.name() == 'ESCROWED'}">
+                                                TẠM GIỮ
+                                            </span>
+
+                                            <span class="badge bg-success"
+                                                  th:if="${order.status.name() == 'COMPLETED'}">
+                                                HOÀN THÀNH
+                                            </span>
+
+                                            <span class="badge bg-danger"
+                                                  th:if="${order.status.name() == 'CANCELLED'}">
+                                                ĐÃ HỦY
+                                            </span>
+
+                                            <span class="badge bg-dark"
+                                                  th:if="${order.status.name() == 'DISPUTED'}">
+                                                TRANH CHẤP
+                                            </span>
+                                        </div>
+
+                                        <!-- HIDDEN INFO -->
+                                        <div class="mb-3 p-3 border rounded bg-light">
+                                            <div class="fw-bold mb-2">Thông tin ẩn</div>
+
+                                            <div th:if="${canViewHiddenInfo}">
+                                                <span th:text="${order.post.hiddenInfo}"></span>
+                                            </div>
+
+                                            <div th:unless="${canViewHiddenInfo}"
+                                                 class="text-muted small">
+                                                Bạn cần hoàn thành thanh toán để xem thông tin này.
+                                            </div>
+                                        </div>
+
+                                        <!-- ACTION -->
+                                        <form th:if="${order.status.name() == 'ESCROWED'}"
+                                              th:action="@{'/orders/confirm/' + ${order.id}}"
+                                              method="post">
+                                            <button class="btn btn-success w-100 fw-bold">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Xác Nhận Đã Nhận Hàng
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
