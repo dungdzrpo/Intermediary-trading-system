@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiet khieu nai</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="d-flex" style="min-height: 100vh;">
+    <div th:replace="~{fragments/sidebar :: sidebar('disputes')}"></div>
+
+    <div class="flex-grow-1 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">Khieu nai #<span th:text="${dispute.id}"></span></h3>
+            <a th:href="@{/disputes}" class="btn btn-outline-secondary">Quay lai</a>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="mb-3">Thong tin chung</h5>
+                        <p><strong>Order:</strong> <span th:text="${dispute.order.id}"></span></p>
+                        <p><strong>Buyer:</strong> <span th:text="${dispute.buyer.username}"></span></p>
+                        <p><strong>Seller:</strong> <span th:text="${dispute.seller.username}"></span></p>
+                        <p><strong>Trang thai:</strong> <span class="badge bg-dark" th:text="${dispute.status}"></span></p>
+                        <p><strong>Ly do:</strong> <span th:text="${dispute.reason}"></span></p>
+                        <p class="mb-0"><strong>Hold ap dung:</strong> <span th:text="${dispute.holdApplied ? 'Co (50.000d moi ben)' : 'Chua'}"></span></p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-3" th:if="${currentUser.username == dispute.seller.username and dispute.status.name() == 'OPEN'}">
+                    <div class="card-body">
+                        <h6 class="mb-3">Phan hoi cua Seller</h6>
+                        <div class="d-flex gap-2">
+                            <form th:action="@{'/disputes/' + ${dispute.id} + '/seller-accept'}" method="post" class="w-100">
+                                <button type="submit" class="btn btn-success w-100">Chap nhan khieu nai</button>
+                            </form>
+                            <form th:action="@{'/disputes/' + ${dispute.id} + '/seller-reject'}" method="post" class="w-100">
+                                <button type="submit" class="btn btn-outline-danger w-100">Tu choi -> Admin xu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0" th:if="${isAdmin and dispute.status.name() == 'ADMIN_REVIEW'}">
+                    <div class="card-body">
+                        <h6 class="mb-3">Quyet dinh cua Admin</h6>
+                        <form th:action="@{'/disputes/' + ${dispute.id} + '/admin-decision'}" method="post" class="d-grid gap-2">
+                            <button class="btn btn-primary" type="submit" name="winner" value="BUYER">Buyer thang</button>
+                            <button class="btn btn-warning" type="submit" name="winner" value="SELLER">Seller thang</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="mb-3">Group Chat (Admin - Buyer - Seller)</h5>
+                        <div class="border rounded p-3 bg-white" style="height: 320px; overflow-y: auto;">
+                            <div th:if="${#lists.isEmpty(messages)}" class="text-muted">Chua co tin nhan.</div>
+                            <div th:each="m : ${messages}" class="mb-3 pb-2 border-bottom">
+                                <div class="small text-muted">
+                                    <strong th:text="${m.sender.username}"></strong>
+                                    <span> - </span>
+                                    <span th:text="${#temporals.format(m.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span>
+                                </div>
+                                <div th:text="${m.content}"></div>
+                            </div>
+                        </div>
+
+                        <form th:action="@{'/disputes/' + ${dispute.id} + '/messages'}" method="post" class="mt-3">
+                            <div class="input-group">
+                                <input type="text" name="content" class="form-control" placeholder="Nhap noi dung trao doi" required>
+                                <button class="btn btn-dark" type="submit">Gui</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
