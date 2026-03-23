@@ -95,6 +95,13 @@
                 <span style="font-size: 1.05rem;">Đơn Đã Bán</span>
             </a>
         </li>
+        <li>
+            <a th:href="@{/disputes}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
+               th:classappend="${activeTab == 'disputes' ? 'active bg-primary fw-bold' : ''}">
+                <span style="font-size: 1.05rem;">Khieu Nai va Phan Xu</span>
+            </a>
+        </li>
+
     </ul>
 
     <hr class="border-secondary mt-auto">
