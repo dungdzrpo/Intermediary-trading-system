@@ -82,6 +82,19 @@
                 <span style="font-size: 1.05rem;">Lịch Sử Giao Dịch</span>
             </a>
         </li>
+        <li>
+            <a th:href="@{/orders/my-purchases}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
+               th:classappend="${activeTab == 'purchases' ? 'active bg-primary fw-bold' : ''}">
+                <span style="font-size: 1.05rem;">Đơn Đã Mua</span>
+            </a>
+        </li>
+
+        <li>
+            <a th:href="@{/orders/my-sales}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
+               th:classappend="${activeTab == 'sales' ? 'active bg-primary fw-bold' : ''}">
+                <span style="font-size: 1.05rem;">Đơn Đã Bán</span>
+            </a>
+        </li>
     </ul>
 
     <hr class="border-secondary mt-auto">
