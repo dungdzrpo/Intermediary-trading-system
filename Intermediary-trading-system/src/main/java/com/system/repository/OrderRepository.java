@@ -28,4 +28,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "join fetch p.seller " +
             "where o.id = :id")
     Optional<Order> findDetailById(@Param("id") Long id);
+    Optional<Order> findByIdAndBuyerUsername(Long id, String buyerUsername);
 }
