@@ -3,6 +3,7 @@ package com.system.controller;
 import com.system.model.Dispute;
 import com.system.model.DisputeMessage;
 import com.system.model.User;
+import com.system.repository.PostRepository;
 import com.system.repository.UserRepository;
 import com.system.service.DisputeService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class DisputeController {
 
     private final DisputeService disputeService;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @GetMapping
     public String listDisputes(Model model, Principal principal) {
@@ -81,6 +83,7 @@ public class DisputeController {
     public String sellerAccept(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
         try {
             disputeService.sellerAccept(id, principal.getName());
+
             redirectAttributes.addFlashAttribute("successMessage", "Seller da chap nhan khieu nai, don da huy va hoan tien.");
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());

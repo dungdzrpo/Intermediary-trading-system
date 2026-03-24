@@ -10,31 +10,29 @@
 
 <div class="d-flex" style="min-height: 100vh;">
 
-    <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: sidebar('purchases')}"></div>
 
-    <!-- Content -->
     <div class="flex-grow-1 p-5">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-11">
 
+                    <div th:if="${successMessage}" class="alert alert-success shadow-sm" th:text="${successMessage}"></div>
+                    <div th:if="${errorMessage}" class="alert alert-danger shadow-sm" th:text="${errorMessage}"></div>
+
                     <div class="card shadow border-0">
-                        <!-- Header -->
                         <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">
-                                <i class="bi bi-receipt me-2"></i>Chi Tiết Đơn Hàng
+                                <i class="bi bi-receipt me-2"></i>Chi Tiết Đơn Hàng <span th:text="'#' + ${order.id}"></span>
                             </h4>
                             <a href="/orders/my-purchases" class="btn btn-light btn-sm fw-bold text-primary shadow-sm">
                                 <i class="bi bi-arrow-left me-1"></i>Quay Lại
                             </a>
                         </div>
 
-                        <!-- Body -->
                         <div class="card-body p-4">
                             <div class="row g-4">
 
-                                <!-- LEFT -->
                                 <div class="col-md-8">
                                     <div class="border rounded p-4 bg-white shadow-sm h-100">
 
@@ -44,18 +42,18 @@
                                                     th:text="${order.post.title}">Tên sản phẩm</h3>
 
                                                 <div class="text-muted mb-2">
-                                                    <i class="bi bi-person-circle me-1"></i>
-                                                    <span th:text="${order.post.seller.username}">seller</span>
+                                                    <i class="bi bi-person-circle me-1"></i> Người bán:
+                                                    <strong class="text-dark" th:text="${order.post.seller.username}">seller</strong>
                                                 </div>
 
                                                 <div>
                                                     <span class="badge bg-success"
                                                           th:if="${order.post.feePayer.name() == 'SELLER'}">
-                                                        Người bán chịu phí
+                                                        Người bán chịu 5% phí
                                                     </span>
                                                     <span class="badge bg-warning text-dark"
                                                           th:if="${order.post.feePayer.name() == 'BUYER'}">
-                                                        Người mua chịu phí
+                                                        Người mua chịu 5% phí
                                                     </span>
                                                 </div>
                                             </div>
@@ -72,7 +70,7 @@
                                         <hr>
 
                                         <h5 class="fw-bold mb-3">
-                                            <i class="bi bi-card-text me-2"></i>Mô Tả
+                                            <i class="bi bi-card-text me-2 text-primary"></i>Mô Tả Sản Phẩm
                                         </h5>
 
                                         <div class="text-muted"
@@ -83,44 +81,41 @@
                                     </div>
                                 </div>
 
-                                <!-- RIGHT -->
                                 <div class="col-md-4">
-                                    <div class="border rounded p-4 bg-white shadow-sm h-100">
+                                    <div class="border rounded p-4 bg-white shadow-sm h-100 d-flex flex-column">
 
-                                        <h5 class="fw-bold mb-3">
-                                            <i class="bi bi-info-circle me-2"></i>Thông Tin Đơn
+                                        <h5 class="fw-bold mb-3 border-bottom pb-2">
+                                            <i class="bi bi-info-circle me-2 text-info"></i>Thông Tin Đơn
                                         </h5>
 
-                                        <!-- STATUS -->
                                         <div class="mb-3">
-                                            <div class="text-muted small">Trạng thái</div>
+                                            <div class="text-muted small mb-1">Trạng thái giao dịch</div>
 
-                                            <span class="badge bg-warning text-dark"
+                                            <span class="badge bg-warning text-dark fs-6 px-3 py-2"
                                                   th:if="${order.status.name() == 'ESCROWED'}">
-                                                TẠM GIỮ
+                                                <i class="bi bi-lock-fill me-1"></i> TẠM GIỮ TIỀN
                                             </span>
 
-                                            <span class="badge bg-success"
+                                            <span class="badge bg-success fs-6 px-3 py-2"
                                                   th:if="${order.status.name() == 'COMPLETED'}">
-                                                HOÀN THÀNH
+                                                <i class="bi bi-check-circle-fill me-1"></i> HOÀN THÀNH
                                             </span>
 
-                                            <span class="badge bg-danger"
+                                            <span class="badge bg-danger fs-6 px-3 py-2"
                                                   th:if="${order.status.name() == 'CANCELLED'}">
-                                                ĐÃ HỦY
+                                                <i class="bi bi-x-circle-fill me-1"></i> ĐÃ HỦY
                                             </span>
 
-                                            <span class="badge bg-dark"
+                                            <span class="badge bg-dark fs-6 px-3 py-2"
                                                   th:if="${order.status.name() == 'DISPUTED'}">
-                                                TRANH CHẤP
+                                                <i class="bi bi-exclamation-triangle-fill me-1"></i> ĐANG TRANH CHẤP
                                             </span>
                                         </div>
 
-                                        <!-- HIDDEN INFO -->
-                                        <div class="mb-3 p-3 border rounded bg-light">
-                                            <div class="fw-bold mb-2">Thông tin ẩn</div>
+                                        <div class="mb-4 p-3 border border-warning rounded bg-light">
+                                            <div class="fw-bold mb-2 text-dark"><i class="bi bi-key-fill text-warning me-1"></i> Thông tin ẩn (Bảo mật)</div>
 
-                                            <div th:if="${canViewHiddenInfo}">
+                                            <div th:if="${canViewHiddenInfo}" class="fw-bold text-success font-monospace">
                                                 <span th:text="${order.post.hiddenInfo}"></span>
                                             </div>
 
@@ -130,15 +125,21 @@
                                             </div>
                                         </div>
 
-                                        <!-- ACTION -->
-                                        <form th:if="${order.status.name() == 'ESCROWED'}"
-                                              th:action="@{'/orders/confirm/' + ${order.id}}"
-                                              method="post">
-                                            <button class="btn btn-success w-100 fw-bold">
-                                                <i class="bi bi-check-circle me-1"></i>
-                                                Xác Nhận Đã Nhận Hàng
+                                        <div class="mt-auto" th:if="${order.status.name() == 'ESCROWED'}">
+
+                                            <form th:action="@{'/orders/confirm/' + ${order.id}}" method="post" class="mb-2">
+                                                <button class="btn btn-success w-100 fw-bold shadow-sm py-2">
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    Xác Nhận Đã Nhận Hàng
+                                                </button>
+                                            </form>
+
+                                            <button type="button" class="btn btn-outline-danger w-100 fw-bold py-2" data-bs-toggle="modal" data-bs-target="#disputeModal">
+                                                <i class="bi bi-exclamation-octagon me-1"></i>
+                                                Khiếu Nại Đơn Hàng
                                             </button>
-                                        </form>
+
+                                        </div>
 
                                     </div>
                                 </div>
@@ -152,6 +153,41 @@
         </div>
     </div>
 
+</div>
+
+<div class="modal fade" id="disputeModal" tabindex="-1" aria-labelledby="disputeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold" id="disputeModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Tạo Khiếu Nại Đơn Hàng #<span th:text="${order.id}"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form th:action="@{/disputes/create}" method="post">
+                <div class="modal-body p-4">
+                    <input type="hidden" name="orderId" th:value="${order.id}">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Lý do khiếu nại <span class="text-danger">*</span></label>
+                        <textarea name="reason" class="form-control" rows="4" placeholder="Vui lòng nêu rõ vấn đề: Tài khoản sai mật khẩu, hàng không đúng mô tả, người bán lừa đảo..." required></textarea>
+                    </div>
+
+                    <div class="alert alert-warning mb-0 small">
+                        <strong>Lưu ý:</strong> Sau khi tạo khiếu nại, số tiền của đơn hàng sẽ bị đóng băng. Đội ngũ Quản trị viên (Admin) sẽ can thiệp và phân xử dựa trên bằng chứng của hai bên.
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Hủy Bỏ</button>
+                    <button type="submit" class="btn btn-danger fw-bold">Gửi Khiếu Nại</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

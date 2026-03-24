@@ -103,4 +103,13 @@ public class PostService {
                 searchKeyword,
                 pageable
         );}
+    // Trong PostService.java
+    public List<Post> getMyPosts(String username) {
+        // 1. Tìm User
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy User"));
+
+        // 2. Lấy danh sách bài đăng của User đó
+        return postRepository.findBySellerOrderByIdDesc(currentUser);
+    }
 }

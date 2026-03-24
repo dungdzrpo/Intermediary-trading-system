@@ -3,8 +3,10 @@ package com.system.controller;
 
 import com.system.dto.PostCreateDTO;
 import com.system.model.Post;
+import com.system.model.User;
 import com.system.repository.PostRepository;
 import com.system.service.PostService;
+import com.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/posts")
@@ -22,6 +25,8 @@ public class PostController {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public String viewPostDetail(@PathVariable Long id, Model model) throws Exception {
@@ -60,6 +65,26 @@ public class PostController {
             return "post/create";
         }
     }
+    // Trong PostController.java
+    @GetMapping("/my-posts")
+    public String myPosts(Model model, Principal principal) {
+        // Gọi thẳng qua Service, truyền username vào
+        List<Post> myPosts = postService.getMyPosts(principal.getName());
 
+        model.addAttribute("posts", myPosts);
+        return "post/my-posts";
+    }
+    @GetMapping("/my-post-detail/{id}")
+    public String viewMyPostDetail(@PathVariable Long id, Model model) {
+        // Tìm bài viết theo ID
+        Post post = postRepository.findById(id).orElse(null);
+
+        if (post == null) {
+            return "redirect:/?error=NotFound"; // Không thấy thì văng về trang chủ
+        }
+
+        model.addAttribute("post", post);
+        return "post/my-post-detail";
+    }
 
 }

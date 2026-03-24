@@ -49,7 +49,7 @@ public class Post {
     }
 
     public enum PostStatus {
-        DRAFT, ACTIVE, LOCKED, CANCELLED
+        DRAFT, ACTIVE, LOCKED, CANCELLED, SOLD,
     }
     public enum Visibility {
         PUBLIC,     // Công khai trên chợ

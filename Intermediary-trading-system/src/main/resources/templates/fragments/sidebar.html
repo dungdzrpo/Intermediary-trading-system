@@ -33,6 +33,13 @@
             background-color: rgba(255, 255, 255, 0.15);
             transform: scale(1.02);
         }
+
+        /* CSS cho khung số dư ví */
+        .wallet-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
     </style>
 
     <a th:href="@{/}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -41,20 +48,36 @@
 
     <hr class="border-secondary">
 
-    <div class="dropdown mb-4" th:if="${currentUser != null or #authorization.expression('isAuthenticated()')}">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle w-100 px-3 py-2 rounded user-dropdown" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-circle fs-3 me-2 text-info"></i>
-            <span class="fs-5 fw-bold" th:text="${#authentication.name}">Username</span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow w-100 border-0" aria-labelledby="dropdownUser">
-            <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person-badge me-2"></i>Hồ sơ cá nhân</a></li>
-            <li><hr class="dropdown-divider border-secondary"></li>
-            <li>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="dropdown-item text-danger fw-bold py-2"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button>
-                </form>
-            </li>
-        </ul>
+    <div th:if="${currentUser != null or #authorization.expression('isAuthenticated()')}">
+
+        <div class="dropdown mb-3">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle w-100 px-3 py-2 rounded user-dropdown" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle fs-3 me-2 text-info"></i>
+                <span class="fs-5 fw-bold text-truncate" th:text="${#authentication.name}">Username</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow w-100 border-0" aria-labelledby="dropdownUser">
+                <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person-badge me-2"></i>Hồ sơ cá nhân</a></li>
+                <li><hr class="dropdown-divider border-secondary"></li>
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="dropdown-item text-danger fw-bold py-2"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="wallet-box p-3 mb-4 mx-1" th:if="${currentUser != null}">
+            <div class="small text-secondary mb-1">Số dư khả dụng:</div>
+            <div class="fs-5 fw-bold text-success mb-1" th:text="${#numbers.formatDecimal(currentUser.balance, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                0 đ
+            </div>
+
+            <div class="small text-danger fw-semibold d-flex align-items-center mt-2 border-top border-secondary pt-2" th:if="${currentUser.holdBalance > 0}">
+                <i class="bi bi-lock-fill me-1"></i> Đóng băng:
+                <span class="ms-1" th:text="${#numbers.formatDecimal(currentUser.holdBalance, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</span>
+            </div>
+        </div>
+
     </div>
 
     <ul class="nav nav-pills flex-column mb-auto">
@@ -88,7 +111,6 @@
                 <span style="font-size: 1.05rem;">Đơn Đã Mua</span>
             </a>
         </li>
-
         <li>
             <a th:href="@{/orders/my-sales}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
                th:classappend="${activeTab == 'sales' ? 'active bg-primary fw-bold' : ''}">
@@ -98,10 +120,15 @@
         <li>
             <a th:href="@{/disputes}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
                th:classappend="${activeTab == 'disputes' ? 'active bg-primary fw-bold' : ''}">
-                <span style="font-size: 1.05rem;">Khieu Nai va Phan Xu</span>
+                <span style="font-size: 1.05rem;">Khiếu Nại & Phán Xử</span>
             </a>
         </li>
-
+        <li>
+            <a th:href="@{/posts/my-posts}" class="nav-link text-white sidebar-item px-3 py-2 mt-1"
+               th:classappend="${activeTab == 'my-posts' ? 'active bg-primary fw-bold' : ''}">
+                <span style="font-size: 1.05rem;">Bài Đã Đăng</span>
+            </a>
+        </li>
     </ul>
 
     <hr class="border-secondary mt-auto">

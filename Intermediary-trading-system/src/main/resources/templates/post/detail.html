@@ -89,20 +89,27 @@
                                                   class="badge bg-success px-3 py-2">ĐANG MỞ BÁN</span>
                                             <span th:if="${post.status.name() == 'LOCKED'}"
                                                   class="badge bg-warning text-dark px-3 py-2">ĐANG CÓ GIAO DỊCH</span>
+                                            <span th:if="${post.status.name() == 'SOLD'}"
+                                                  class="badge bg-dark px-3 py-2">ĐÃ BÁN</span>
                                             <span th:if="${post.status.name() == 'DRAFT'}"
                                                   class="badge bg-secondary px-3 py-2">BẢN NHÁP</span>
                                             <span th:if="${post.status.name() == 'CANCELLED'}"
-                                                  class="badge bg-dark px-3 py-2">ĐÃ HỦY</span>
+                                                  class="badge bg-danger px-3 py-2">ĐÃ HỦY</span>
                                         </div>
 
                                         <div class="mb-4 p-3 rounded border bg-light">
-                                            <div class="fw-bold mb-2">Thông tin ẩn</div>
-                                            <div class="text-muted small">
+                                            <div class="fw-bold mb-2"><i class="bi bi-key-fill text-warning"></i> Thông tin ẩn</div>
+
+                                            <div th:if="${#authentication.name == post.seller.username}" class="font-monospace fw-bold text-success">
+                                                <span th:text="${post.hiddenInfo}">Nội dung bảo mật...</span>
+                                            </div>
+
+                                            <div th:unless="${#authentication.name == post.seller.username}" class="text-muted small">
                                                 Nội dung này chỉ hiển thị sau khi bạn thanh toán thành công và đơn hàng được tạo ở trạng thái tạm giữ.
                                             </div>
                                         </div>
 
-                                        <form th:if="${post.status.name() == 'ACTIVE'}"
+                                        <form th:if="${post.status.name() == 'ACTIVE' and #authentication.name != post.seller.username}"
                                               th:action="@{'/orders/buy/' + ${post.id}}"
                                               method="post">
                                             <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold shadow-sm">
@@ -110,7 +117,12 @@
                                             </button>
                                         </form>
 
-                                        <div th:if="${post.status.name() != 'ACTIVE'}"
+                                        <div th:if="${#authentication.name == post.seller.username}"
+                                             class="btn btn-outline-primary btn-lg w-100 fw-bold disabled">
+                                            <i class="bi bi-person-check-fill me-2"></i>Sản Phẩm Của Bạn
+                                        </div>
+
+                                        <div th:if="${post.status.name() != 'ACTIVE' and #authentication.name != post.seller.username}"
                                              class="alert alert-secondary text-center mb-0">
                                             <i class="bi bi-lock-fill me-2"></i>
                                             Bài đăng này hiện không thể mua.
